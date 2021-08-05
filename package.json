@@ -1,0 +1,21 @@
+{
+  "name": "electron_workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "build": "electron-builder --win portable --x64",
+    "postinstall": "install-app-deps && electron-builder install-app-deps"
+  },
+  "author": "",
+  "devDependencies": {
+    "electron": "^7.3.3",
+    "electron-builder": "^21.2.0"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "sqlite3": "^5.0.2"
+  }
+}
