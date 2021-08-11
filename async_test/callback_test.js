@@ -1,54 +1,46 @@
 'use strict';
 
 //
-// Bad case of using callback
+// to-promise
 //
 class userStorage {
-    loginUser(id, password, onSuccess, onError) {
-        let result = 0;
-        setTimeout(() => {
-            if ((id === 'ellie' && password === 'dream') ||
-                (id === 'coder' && password === 'academy')) {
-                onSuccess(id);
-                result = 1;
-            } else {
-                onError(new Error(`id[${id}] is not found.`));
-                result = -1;
-            }
-        }, 2000);
-        return result;
+    loginUser(id, password) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if ((id === 'ellie' && password === 'dream') ||
+                    (id === 'coder' && password === 'academy')) {
+                    resolve(id);
+                } else {
+                    reject(new Error(`${id} is not user`));
+                }
+            }, 2000);
+        });
     }
 
-    getRoles(user, onSuccess, onError) {
-        setTimeout(() => {
-            if (user === 'ellie') {
-                onSuccess({ name: 'ellie', role: 'admin' });
-            } else {
-                onError(new Error(`user[${user}] has no any roles`));
-            }
-        }, 1000);
+    getRoles(user) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (user === 'ellie') {
+                    resolve({ name: 'ellie', role: 'admin' });
+                } else {
+                    reject(new Error("user is not ellie"));
+                }
+            }, 1000);
+        });
     }
-}
-
-function onSuccess(id_user) {
-    console.log(`success : `,id_user);
-}
-
-function onError(error) {
-    console.log(error);
 }
 
 const user_storage = new userStorage();
-const id = prompt("enter your id");
-const passwd = prompt("enter your password");
+//const id = prompt("enter your id");
+//const passwd = prompt("enter your password");
+const id = "ellie";
+const passwd = "dream";
 
+user_storage
+    .loginUser(id, passwd)
+    .then(user_storage.getRoles)
+    .then(console.log)
+    .catch(console.log);
 
-const ret = user_storage.loginUser(
-    id, 
-    passwd, 
-    () => {
-        user_storage.getRoles(id, onSuccess, onError);
-    }, 
-    onError);
 
 
